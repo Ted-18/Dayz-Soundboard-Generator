@@ -1,29 +1,28 @@
 import json
 import os
 from os.path import exists
-from tracemalloc import stop
+import shutil
+
+
+#REGLAGES IMPORTANTS
+#IMPORTANT!!! Dossier dans lequel l'addon se trouve!
+work_folder = "addons"
+
+# Variables de réglages
+addon_name = "EA_Soundboard"
+sounds_folder = "Sounds"
+
+# Variables d'imports
+import_folder = "import"
+player_sound_folder = "player"
+
+# Variables d'exports
+export_folder = "generated"
+nom_export_player_cpp = "conf-generated-player.cpp"
+nom_profile_json = "profile-conf.json"
 
 
 def generator():
-
-    #REGLAGES IMPORTANTS
-    #IMPORTANT!!! Dossier dans lequel l'addon se trouve!
-    work_folder = "addons"
-
-    # Variables de réglages
-    addon_name = "EA_Soundboard"
-    sounds_file = "Sounds"
-
-    # Variables d'imports
-    import_folder = "import"
-    player_sound_folder = "player"
-
-    # Variables d'exports
-    export_folder = "generated"
-    nom_export_player_cpp = "conf-generated-player.cpp"
-    nom_profile_json = "profile-conf.json"
-
-
     # Vérification si le dossier d'import existe
     if os.path.exists(import_folder + "\\") == False:
         os.mkdir(import_folder + "\\")
@@ -43,7 +42,21 @@ def generator():
     file_list_player = os.listdir(import_folder + "\\" + player_sound_folder + "\\")
 
     if not file_list_player:
+        print("")
+        print("")
+        print("==================================================")
         print("Aucun sons ne se trouve dans le fichier d\'import.")
+        print("")
+        print("Placez dans le dossier \"" + import_folder + "/" + player_sound_folder +"\" les sons")
+        print(".OGG jouables sur les JOUEURS.")
+        print("")
+        print("Vous trouverez une fois généré les fichiers dans")
+        print("le dossier \""+ export_folder + "\"")
+        print("                                          EA - Ted")
+        print("==================================================")
+        print("")
+        print("")
+        input("Appuyez sur n'importe quelle touche pour quitter...")
         return
 
     # Génération du fichier CPP
@@ -53,12 +66,15 @@ def generator():
             f.writelines("\n" + "{")
             f.writelines("\n" + "    sound[]=")
             f.writelines("\n" + "        {")
-            f.writelines("\n" + "            \"\\" + addon_name + "\\" + sounds_file + "\\" + files[:-4] + "\",")
+            f.writelines("\n" + "            \"\\" + addon_name + "\\" + sounds_folder + "\\" + files[:-4] + "\",")
             f.writelines("\n" + "            1,")
             f.writelines("\n" + "            1,")
             f.writelines("\n" + "            1000};")
             f.writelines("\n" + "};")
-    print("Config de " + str(len(file_list_player)) + " sons de joueur généré.")
+    print("")
+    print("")
+    print("==================================================")
+    print("Config de " + str(len(file_list_player)) + " sons de joueur générés.")
 
     # Génération du fichier profile-conf.json
     SoundsLists = {}
@@ -68,7 +84,69 @@ def generator():
         SoundsLists["SoundsLists"] = Sounds
     with open(export_folder + "\\" + nom_profile_json, "w") as write_file:
         json.dump(SoundsLists, write_file, indent=4, sort_keys=True)
-    print("Fichier profil de " + str(len(file_list_player)) + " sons généré.")
+    print("Fichier profil de " + str(len(file_list_player)) + " sons générés.")
+    print("==================================================")
+    print("")
+    print("")
+
+    # Vérification si le dossier Sound existe
+    if os.path.exists(sounds_folder + "\\") == False:
+        os.mkdir(sounds_folder + "\\")
+
+    # Copie des sons dans le dossier sound
+    for files in file_list_player:
+        shutil.copyfile(import_folder + "\\" + player_sound_folder + "\\" + files, sounds_folder + "\\" + files)
+    
+    remover()
+    
+def remover(): 
+    error_question = False
+
+    # Demande de suppression
+    print("")
+    print("")
+    print("==================================================")
+    question1 = input("Voulez vous supprimer le dossier d'Import? Y ou N :")
+    question2 = input("Voulez vous supprimer le dossier d'Export? Y ou N :")
+    print("==================================================")
+    print("")
+    print("")
+    print("")
+    print("")
+    print("==================================================")
+    if question1 == "Y" or question1 == "y":
+        if os.path.exists(import_folder + "\\") == True:
+            shutil.rmtree(import_folder)
+            print("Vous avez ACCEPTÉ la suppression des Imports.")
+        else:
+            print("Le fichier des Imports n'existait déjà plus.")
+    elif question1 == "N" or question1 == "n": 
+        print("Vous avez REFUSÉ la suppression des Imports.")
+    else:
+        error_question = True
+
+    if question2 == "Y" or question2 == "y":
+        if os.path.exists(export_folder + "\\") == True:
+            shutil.rmtree(export_folder)
+            print("Vous avez ACCEPTÉ la suppression des Exports.")
+        else:
+            print("Le fichier des Exports n'existait déjà plus.")
+    elif question2 == "N" or question2 == "n": 
+        print("Vous avez REFUSÉ la suppression des Exports.")    
+    else:
+        error_question = True
+
+    if error_question == True:
+        print("Vous avez fait une erreur, veuillez recommencer.")
+        print("==================================================")
+        remover()
+        return
+
+    print("==================================================")
+    print("")
+    print("")
+    
+    input("Appuyez sur n'importe quelle touche pour quitter...")
 
 
 generator()
