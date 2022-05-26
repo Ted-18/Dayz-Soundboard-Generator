@@ -5,8 +5,6 @@ import shutil
 
 
 #REGLAGES IMPORTANTS
-#IMPORTANT!!! Dossier dans lequel l'addon se trouve!
-work_folder = "addons"
 
 # Variables de réglages
 addon_name = "EA_Soundboard"
