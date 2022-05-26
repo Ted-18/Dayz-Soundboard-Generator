@@ -13,6 +13,14 @@ sounds_folder = "Sounds"
 # Variables d'imports
 import_folder = "import"
 player_sound_folder = "player"
+sound_500m = "500m"
+sound_1000m = "1000m"
+sound_1500m = "1500m"
+sound_2000m = "2000m"
+sound_2500m = "2500m"
+sound_3000m = "3000m"
+sound_5000m = "5000m"
+sound_10000m = "10000m"
 
 # Variables d'exports
 export_folder = "generated"
@@ -39,6 +47,7 @@ def generator():
     # Listing de tous les sons du fichier Sounds
     file_list_player = os.listdir(import_folder + "\\" + player_sound_folder + "\\")
 
+    # Information si il n'y a pas de sound
     if not file_list_player:
         print("")
         print("")
@@ -86,6 +95,39 @@ def generator():
     print("==================================================")
     print("")
     print("")
+
+    # Génération du fichier de son à coordonnée 500m
+    if os.path.exists(import_folder + "\\" + player_sound_folder + "\\") == False:
+        os.mkdir(import_folder + "\\" + player_sound_folder + "\\")
+        
+    file_list_500m = os.listdir(import_folder + "\\" + player_sound_folder + "\\")
+
+    for files in file_list_player:
+        with open(export_folder + "\\" + nom_export_player_cpp, "a") as f:
+            f.writelines("\n" + "class " + files[:-4] + " : default")
+            f.writelines("\n" + "{")
+            f.writelines("\n" + "    sound[]=")
+            f.writelines("\n" + "        {")
+            f.writelines("\n" + "            \"\\" + addon_name + "\\" + sounds_folder + "\\" + files[:-4] + "\",")
+            f.writelines("\n" + "            1,")
+            f.writelines("\n" + "            1,")
+            f.writelines("\n" + "            1000};")
+            f.writelines("\n" + "};")
+
+
+    # Génération du fichier de son à coordonnée 1000m
+
+    # Génération du fichier de son à coordonnée 1500m
+
+    # Génération du fichier de son à coordonnée 2000m
+
+    # Génération du fichier de son à coordonnée 2500m
+
+    # Génération du fichier de son à coordonnée 3000m
+
+    # Génération du fichier de son à coordonnée 5000m
+
+    # Génération du fichier de son à coordonnée 10000m
 
     # Vérification si le dossier Sound existe
     if os.path.exists(sounds_folder + "\\") == False:
