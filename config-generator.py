@@ -27,11 +27,16 @@ export_folder = "generated"
 nom_export_player_cpp = "conf-generated-player.cpp"
 nom_profile_json = "profile-conf.json"
 
+# Activation des exports
+enable_export_player_cpp = True
+enable_export_distance_500m_cpp = True
+enable_export_profile_json = True
+
 def init():
     starting()
-    export_player_cpp()
-    export_distance_500m_cpp()
-    export_profile_json()
+    if (enable_export_player_cpp == True): export_player_cpp()
+    if (enable_export_player_cpp == True): export_distance_500m_cpp()
+    if (enable_export_player_cpp == True): export_profile_json()
     remover()
 
 def starting():
