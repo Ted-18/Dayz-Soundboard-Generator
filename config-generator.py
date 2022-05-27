@@ -27,27 +27,37 @@ export_folder = "generated"
 nom_export_player_cpp = "conf-generated-player.cpp"
 nom_profile_json = "profile-conf.json"
 
+def init():
+    starting()
+    export_player_cpp()
+    export_distance_500m_cpp()
+    export_profile_json()
+    remover()
 
-def generator():
+def starting():
+    # ==========================================
     # Vérification si le dossier d'import existe
+    # ==========================================
     if os.path.exists(import_folder + "\\") == False:
         os.mkdir(import_folder + "\\")
     if os.path.exists(import_folder + "\\" + player_sound_folder + "\\") == False:
         os.mkdir(import_folder + "\\" + player_sound_folder + "\\")
 
+    # ==========================================
     # Vérification si le dossier d'export existe
+    # ==========================================
     if os.path.exists(export_folder + "\\") == False:
         os.mkdir(export_folder + "\\")
 
-    # Suppression du fichier cpp est déjà existant
-    if exists(export_folder + "\\" + nom_export_player_cpp):
-        os.remove(export_folder + "\\" + nom_export_player_cpp)
-        print("[Generator] Suppression de l\"ancien " + nom_export_player_cpp)
-
+    # ==========================================
     # Listing de tous les sons du fichier Sounds
+    # ==========================================
+    global file_list_player
     file_list_player = os.listdir(import_folder + "\\" + player_sound_folder + "\\")
 
+    # ==========================================
     # Information si il n'y a pas de sound
+    # ==========================================
     if not file_list_player:
         print("")
         print("")
@@ -65,8 +75,20 @@ def generator():
         print("")
         input("Appuyez sur n'importe quelle touche pour quitter...")
         return
+    
 
+
+def export_player_cpp():
+    # ==========================================
+    # Suppression du fichier cpp est déjà existant
+    # ==========================================
+    if exists(export_folder + "\\" + nom_export_player_cpp):
+        os.remove(export_folder + "\\" + nom_export_player_cpp)
+        print("[Generator] Suppression de l\"ancien " + nom_export_player_cpp)
+
+    # ==========================================
     # Génération du fichier CPP
+    # ==========================================
     for files in file_list_player:
         with open(export_folder + "\\" + nom_export_player_cpp, "a") as f:
             f.writelines("\n" + "class " + files[:-4] + " : default")
@@ -83,7 +105,11 @@ def generator():
     print("==================================================")
     print("Config de " + str(len(file_list_player)) + " sons de joueur générés.")
 
+
+def export_profile_json():
+    # ==========================================
     # Génération du fichier profile-conf.json
+    # ==========================================
     SoundsLists = {}
     Sounds = []
     for files in file_list_player:
@@ -96,7 +122,11 @@ def generator():
     print("")
     print("")
 
+
+def export_distance_500m_cpp():
+    # ==========================================
     # Génération du fichier de son à coordonnée 500m
+    # ==========================================
     if os.path.exists(import_folder + "\\" + player_sound_folder + "\\") == False:
         os.mkdir(import_folder + "\\" + player_sound_folder + "\\")
         
@@ -129,20 +159,27 @@ def generator():
 
     # Génération du fichier de son à coordonnée 10000m
 
+    
+
+def copy():
+    # ==========================================
     # Vérification si le dossier Sound existe
+    # ==========================================
     if os.path.exists(sounds_folder + "\\") == False:
         os.mkdir(sounds_folder + "\\")
 
+    # ==========================================
     # Copie des sons dans le dossier sound
+    # ==========================================
     for files in file_list_player:
         shutil.copyfile(import_folder + "\\" + player_sound_folder + "\\" + files, sounds_folder + "\\" + files)
-    
-    remover()
     
 def remover(): 
     error_question = False
 
+    # ==========================================
     # Demande de suppression
+    # ==========================================
     print("")
     print("")
     print("==================================================")
@@ -189,4 +226,4 @@ def remover():
     input("Appuyez sur n'importe quelle touche pour quitter...")
 
 
-generator()
+init()
