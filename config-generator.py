@@ -35,8 +35,8 @@ enable_export_profile_json = True
 def init():
     starting()
     if (enable_export_player_cpp == True): export_player_cpp()
-    if (enable_export_player_cpp == True): export_distance_500m_cpp()
-    if (enable_export_player_cpp == True): export_profile_json()
+    if (enable_export_distance_500m_cpp == True): export_distance_500m_cpp()
+    if (enable_export_profile_json == True): export_profile_json()
     remover()
 
 def starting():
@@ -59,31 +59,40 @@ def starting():
     # ==========================================
     global file_list_player
     file_list_player = os.listdir(import_folder + "\\" + player_sound_folder + "\\")
-
+    if not file_list_player:
+        listing_player = "Placez dans le dossier \"" + import_folder + "/" + player_sound_folder +"\" les sons.OGG jouables sur les JOUEURS."
+    else:
+        listing_player = "Il y a " + str(len(file_list_player)) + " son de joueurs."
+         
     # ==========================================
     # Information si il n'y a pas de sound
     # ==========================================
-    if not file_list_player:
-        print("")
-        print("")
-        print("==================================================")
-        print("Aucun sons ne se trouve dans le fichier d\'import.")
-        print("")
-        print("Placez dans le dossier \"" + import_folder + "/" + player_sound_folder +"\" les sons")
-        print(".OGG jouables sur les JOUEURS.")
-        print("")
-        print("Vous trouverez une fois généré les fichiers dans")
-        print("le dossier \""+ export_folder + "\"")
-        print("                                          EA - Ted")
-        print("==================================================")
-        print("")
-        print("")
-        input("Appuyez sur n'importe quelle touche pour quitter...")
-        return
-    
+    print("")
+    print("")
+    print("==================================================")
+    print("")
+    print(listing_player)
+    print("")
+    print("Vous trouverez une fois généré les fichiers dans")
+    print("le dossier \""+ export_folder + "\"")
+    print("                                          EA - Ted")
+    print("==================================================")
+    print("")
+    print("")
+    input("Appuyez sur n'importe quelle touche pour quitter...")
+    return
+
+def import_verify():
+    # ==========================================
+    # Listing de tous les sons du fichier Sounds
+    # ==========================================
+    global file_list_player
+    file_list_player = os.listdir(import_folder + "\\" + player_sound_folder + "\\")
 
 
 def export_player_cpp():
+    if (enable_export_player_cpp != True): return
+
     # ==========================================
     # Suppression du fichier cpp est déjà existant
     # ==========================================
@@ -112,6 +121,8 @@ def export_player_cpp():
 
 
 def export_profile_json():
+    if (enable_export_profile_json != True): return
+
     # ==========================================
     # Génération du fichier profile-conf.json
     # ==========================================
@@ -129,6 +140,8 @@ def export_profile_json():
 
 
 def export_distance_500m_cpp():
+    if (enable_export_distance_500m_cpp != True): return
+
     # ==========================================
     # Génération du fichier de son à coordonnée 500m
     # ==========================================
