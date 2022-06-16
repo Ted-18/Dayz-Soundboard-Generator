@@ -9,22 +9,22 @@ import string
 
 #REGLAGES IMPORTANTS
 
-# Variables de réglages
+# Variables de reglages
 addon_name = "EA_Soundboard"
 sounds_folder = "Sounds"
 
 # Variables d'imports
 import_folder = "import"
 player_sound_folder = "player"
-sound_dist_1 = "50"
-sound_dist_2 = "1000"
-sound_dist_3 = "1500"
-sound_dist_4 = "2000"
-sound_dist_5 = "2500"
-sound_dist_6 = "3000"
-sound_dist_7 = "5000"
-sound_dist_8 = "10000"
-sound_dist_9 = "10000"
+sound_dist_1 = "250"
+sound_dist_2 = "500"
+sound_dist_3 = "1000"
+sound_dist_4 = "75"
+sound_dist_5 = "100"
+sound_dist_6 = "125"
+sound_dist_7 = "150"
+sound_dist_8 = "175"
+sound_dist_9 = "200"
 
 # Variables d'exports
 export_folder = "generated"
@@ -77,7 +77,7 @@ def init():
 
 def check_import():
     # ==========================================
-    # Vérification si le dossier d'import existe
+    # Verification si le dossier d'import existe
     # ==========================================
     global first_import
     first_import = False
@@ -130,7 +130,7 @@ def check_import():
 
 def check_export():
     # ==========================================
-    # Vérification si le dossier d'export existe
+    # Verification si le dossier d'export existe
     # ==========================================
     global first_export
     first_export = False
@@ -140,13 +140,13 @@ def check_export():
         os.mkdir(export_folder + "\\")
         first_export = True
     else:
-        print("Attention en relancant un export vos fichiers CPP seront tous supprimés!")
+        print("Attention en relancant un export vos fichiers CPP seront tous supprimes!")
         print("")
         input("Appuyez sur n'importe quelle touche pour continuer...")
 
 def cpp_remove():
     # ==========================================
-    # Suppression du fichier cpp est déjà existant
+    # Suppression du fichier cpp est deja existant
     # ==========================================
     
     #Player
@@ -326,7 +326,7 @@ def notification():
     print(listing_8)
     print(listing_9)
     print("")
-    print("Vous trouverez une fois généré les fichiers dans")
+    print("Vous trouverez une fois genere les fichiers dans")
     print("le dossier \""+ export_folder + "\"")
     print("                                          EA - Ted")
     print("==================================================")
@@ -340,7 +340,7 @@ def export_player_cpp():
     if (enable_export_player_cpp != True): return
 
     # ==========================================
-    # Génération du fichier CPP
+    # Generation du fichier CPP
     # ==========================================
     for files in file_list_player:
         with open(export_folder + "\\" + nom_export_player_cpp, "a") as f:
@@ -356,14 +356,14 @@ def export_player_cpp():
     print("")
     print("")
     print("==================================================")
-    print("Fichier player avec " + str(len(file_list_player)) + " sons générés.")
+    print("Fichier player avec " + str(len(file_list_player)) + " sons generes.")
 
 
 def export_profile_json():
     if (enable_export_profile_json != True): return
 
     # ==========================================
-    # Génération du fichier profile-conf.json
+    # Generation du fichier profile-conf.json
     # ==========================================
     SoundsLists = {}
     Sounds = []
@@ -390,7 +390,7 @@ def export_profile_json():
     SoundsLists["SoundsLists"] = Sounds
     with open(export_folder + "\\" + nom_profile_json, "w") as write_file:
         json.dump(SoundsLists, write_file, indent=4, sort_keys=True)
-    print("Fichier profil de " + str(len(file_list_player + file_list_1 + file_list_2 + file_list_3 + file_list_4 + file_list_5 + file_list_6 + file_list_7 + file_list_8 + file_list_9)) + " sons générés.")
+    print("Fichier profil de " + str(len(file_list_player + file_list_1 + file_list_2 + file_list_3 + file_list_4 + file_list_5 + file_list_6 + file_list_7 + file_list_8 + file_list_9)) + " sons generes.")
     print("==================================================")
     print("")
     print("") 
@@ -400,12 +400,17 @@ def export_distance_1_cpp():
     if (enable_export_distance_1_cpp != True): return
 
     # ==========================================
-    # Génération du fichier de son à coordonnée 1
+    # Generation du fichier de son a coordonnee 1
     # ==========================================
+    with open(export_folder + "\\" + nom_export_dist_1_cpp, "a") as f:
+        f.writelines("   //==========================================")
+        f.writelines("\n   //Generation du fichier de son a coordonnee 1")
+        f.writelines("\n   //==========================================")
+        f.writelines("\n")
 
     for files in file_list_1:
         with open(export_folder + "\\" + nom_export_dist_1_cpp, "a") as f:
-            f.writelines("\n" + "class " + files[:-4] + "_" + sound_dist_1 + "M")
+            f.writelines("\n" + "    class " + files[:-4] + "_" + sound_dist_1 + "M")
             f.writelines("\n" + "    {")
             f.writelines("\n" + "        samples[]=")
             f.writelines("\n" + "        {")
@@ -424,18 +429,23 @@ def export_distance_1_cpp():
             f.writelines("\n" + "        };")
             f.writelines("\n" + "    };")      
             
-    print("Fichier " + sound_dist_1 + "m avec " + str(len(file_list_1)) + " sons générés.")
+    print("Fichier " + sound_dist_1 + "m avec " + str(len(file_list_1)) + " sons generes.")
      
 def export_distance_2_cpp():
     if (enable_export_distance_2_cpp != True): return
 
     # ==========================================
-    # Génération du fichier de son à coordonnée 1
+    # Generation du fichier de son a coordonnee 2
     # ==========================================
-
+    with open(export_folder + "\\" + nom_export_dist_2_cpp, "a") as f:
+        f.writelines("   //==========================================")
+        f.writelines("\n   //Generation du fichier de son a coordonnee 2")
+        f.writelines("\n   //==========================================")
+        f.writelines("\n")
+        
     for files in file_list_2:
         with open(export_folder + "\\" + nom_export_dist_2_cpp, "a") as f:
-            f.writelines("\n" + "class " + files[:-4] + "_" + sound_dist_2 + "M")
+            f.writelines("\n" + "    class " + files[:-4] + "_" + sound_dist_2 + "M")
             f.writelines("\n" + "    {")
             f.writelines("\n" + "        samples[]=")
             f.writelines("\n" + "        {")
@@ -454,18 +464,23 @@ def export_distance_2_cpp():
             f.writelines("\n" + "        };")
             f.writelines("\n" + "    };")      
             
-    print("Fichier " + sound_dist_2 + "m avec " + str(len(file_list_2)) + " sons générés.")
+    print("Fichier " + sound_dist_2 + "m avec " + str(len(file_list_2)) + " sons generes.")
 
 def export_distance_3_cpp():
     if (enable_export_distance_3_cpp != True): return
 
     # ==========================================
-    # Génération du fichier de son à coordonnée 1
+    # Generation du fichier de son a coordonnee 3
     # ==========================================
-
+    with open(export_folder + "\\" + nom_export_dist_3_cpp, "a") as f:
+        f.writelines("   //==========================================")
+        f.writelines("\n   //Generation du fichier de son a coordonnee 3")
+        f.writelines("\n   //==========================================")
+        f.writelines("\n")
+        
     for files in file_list_3:
         with open(export_folder + "\\" + nom_export_dist_3_cpp, "a") as f:
-            f.writelines("\n" + "class " + files[:-4] + "_" + sound_dist_3 + "M")
+            f.writelines("\n" + "    class " + files[:-4] + "_" + sound_dist_3 + "M")
             f.writelines("\n" + "    {")
             f.writelines("\n" + "        samples[]=")
             f.writelines("\n" + "        {")
@@ -484,18 +499,23 @@ def export_distance_3_cpp():
             f.writelines("\n" + "        };")
             f.writelines("\n" + "    };")      
             
-    print("Fichier " + sound_dist_3 + "m avec " + str(len(file_list_3)) + " sons générés.")
+    print("Fichier " + sound_dist_3 + "m avec " + str(len(file_list_3)) + " sons generes.")
     
 def export_distance_4_cpp():
     if (enable_export_distance_4_cpp != True): return
 
     # ==========================================
-    # Génération du fichier de son à coordonnée 1
+    # Generation du fichier de son a coordonnee 4
     # ==========================================
-
+    with open(export_folder + "\\" + nom_export_dist_4_cpp, "a") as f:
+        f.writelines("   //==========================================")
+        f.writelines("\n   //Generation du fichier de son a coordonnee 4")
+        f.writelines("\n   //==========================================")
+        f.writelines("\n")
+        
     for files in file_list_4:
         with open(export_folder + "\\" + nom_export_dist_4_cpp, "a") as f:
-            f.writelines("\n" + "class " + files[:-4] + "_" + sound_dist_4 + "M")
+            f.writelines("\n" + "    class " + files[:-4] + "_" + sound_dist_4 + "M")
             f.writelines("\n" + "    {")
             f.writelines("\n" + "        samples[]=")
             f.writelines("\n" + "        {")
@@ -514,18 +534,23 @@ def export_distance_4_cpp():
             f.writelines("\n" + "        };")
             f.writelines("\n" + "    };")      
             
-    print("Fichier " + sound_dist_4 + "m avec " + str(len(file_list_4)) + " sons générés.")
+    print("Fichier " + sound_dist_4 + "m avec " + str(len(file_list_4)) + " sons generes.")
     
 def export_distance_5_cpp():
     if (enable_export_distance_5_cpp != True): return
 
     # ==========================================
-    # Génération du fichier de son à coordonnée 1
+    # Generation du fichier de son a coordonnee 5
     # ==========================================
-
+    with open(export_folder + "\\" + nom_export_dist_5_cpp, "a") as f:
+        f.writelines("   //==========================================")
+        f.writelines("\n   //Generation du fichier de son a coordonnee 5")
+        f.writelines("\n   //==========================================")
+        f.writelines("\n")
+        
     for files in file_list_5:
         with open(export_folder + "\\" + nom_export_dist_5_cpp, "a") as f:
-            f.writelines("\n" + "class " + files[:-4] + "_" + sound_dist_5 + "M")
+            f.writelines("\n" + "    class " + files[:-4] + "_" + sound_dist_5 + "M")
             f.writelines("\n" + "    {")
             f.writelines("\n" + "        samples[]=")
             f.writelines("\n" + "        {")
@@ -544,18 +569,23 @@ def export_distance_5_cpp():
             f.writelines("\n" + "        };")
             f.writelines("\n" + "    };")      
             
-    print("Fichier " + sound_dist_5 + "m avec " + str(len(file_list_5)) + " sons générés.")
+    print("Fichier " + sound_dist_5 + "m avec " + str(len(file_list_5)) + " sons generes.")
     
 def export_distance_6_cpp():
     if (enable_export_distance_6_cpp != True): return
-
+        
     # ==========================================
-    # Génération du fichier de son à coordonnée 1
+    # Generation du fichier de son a coordonnee 6
     # ==========================================
-
+    with open(export_folder + "\\" + nom_export_dist_6_cpp, "a") as f:
+        f.writelines("   //==========================================")
+        f.writelines("\n   //Generation du fichier de son a coordonnee 6")
+        f.writelines("\n   //==========================================")
+        f.writelines("\n")
+        
     for files in file_list_6:
         with open(export_folder + "\\" + nom_export_dist_6_cpp, "a") as f:
-            f.writelines("\n" + "class " + files[:-4] + "_" + sound_dist_6 + "M")
+            f.writelines("\n" + "    class " + files[:-4] + "_" + sound_dist_6 + "M")
             f.writelines("\n" + "    {")
             f.writelines("\n" + "        samples[]=")
             f.writelines("\n" + "        {")
@@ -574,18 +604,23 @@ def export_distance_6_cpp():
             f.writelines("\n" + "        };")
             f.writelines("\n" + "    };")      
             
-    print("Fichier " + sound_dist_6 + "m avec " + str(len(file_list_6)) + " sons générés.")
+    print("Fichier " + sound_dist_6 + "m avec " + str(len(file_list_6)) + " sons generes.")
 
 def export_distance_7_cpp():
     if (enable_export_distance_7_cpp != True): return
 
     # ==========================================
-    # Génération du fichier de son à coordonnée 1
+    # Generation du fichier de son a coordonnee 7
     # ==========================================
-
+    with open(export_folder + "\\" + nom_export_dist_7_cpp, "a") as f:
+        f.writelines("   //==========================================")
+        f.writelines("\n   //Generation du fichier de son a coordonnee 7")
+        f.writelines("\n   //==========================================")
+        f.writelines("\n")
+        
     for files in file_list_7:
         with open(export_folder + "\\" + nom_export_dist_7_cpp, "a") as f:
-            f.writelines("\n" + "class " + files[:-4] + "_" + sound_dist_7 + "M")
+            f.writelines("\n" + "    class " + files[:-4] + "_" + sound_dist_7 + "M")
             f.writelines("\n" + "    {")
             f.writelines("\n" + "        samples[]=")
             f.writelines("\n" + "        {")
@@ -604,18 +639,23 @@ def export_distance_7_cpp():
             f.writelines("\n" + "        };")
             f.writelines("\n" + "    };")      
             
-    print("Fichier " + sound_dist_7 + "m avec " + str(len(file_list_7)) + " sons générés.")
+    print("Fichier " + sound_dist_7 + "m avec " + str(len(file_list_7)) + " sons generes.")
 
 def export_distance_8_cpp():
     if (enable_export_distance_8_cpp != True): return
 
     # ==========================================
-    # Génération du fichier de son à coordonnée 1
+    # Generation du fichier de son a coordonnee 8
     # ==========================================
-
+    with open(export_folder + "\\" + nom_export_dist_8_cpp, "a") as f:
+        f.writelines("   //==========================================")
+        f.writelines("\n   //Generation du fichier de son a coordonnee 8")
+        f.writelines("\n   //==========================================")
+        f.writelines("\n")
+        
     for files in file_list_8:
         with open(export_folder + "\\" + nom_export_dist_8_cpp, "a") as f:
-            f.writelines("\n" + "class " + files[:-4] + "_" + sound_dist_8 + "M")
+            f.writelines("\n" + "    class " + files[:-4] + "_" + sound_dist_8 + "M")
             f.writelines("\n" + "    {")
             f.writelines("\n" + "        samples[]=")
             f.writelines("\n" + "        {")
@@ -634,18 +674,23 @@ def export_distance_8_cpp():
             f.writelines("\n" + "        };")
             f.writelines("\n" + "    };")      
             
-    print("Fichier " + sound_dist_8 + "m avec " + str(len(file_list_8)) + " sons générés.")
+    print("Fichier " + sound_dist_8 + "m avec " + str(len(file_list_8)) + " sons generes.")
 
 def export_distance_9_cpp():
     if (enable_export_distance_9_cpp != True): return
 
     # ==========================================
-    # Génération du fichier de son à coordonnée 1
+    # Generation du fichier de son a coordonnee 9
     # ==========================================
+    with open(export_folder + "\\" + nom_export_dist_9_cpp, "a") as f:
+        f.writelines("   //==========================================")
+        f.writelines("\n   //Generation du fichier de son a coordonnee 9")
+        f.writelines("\n   //==========================================")
+        f.writelines("\n")
 
     for files in file_list_9:
         with open(export_folder + "\\" + nom_export_dist_9_cpp, "a") as f:
-            f.writelines("\n" + "class " + files[:-4] + "_" + sound_dist_9 + "M")
+            f.writelines("\n" + "    class " + files[:-4] + "_" + sound_dist_9 + "M")
             f.writelines("\n" + "    {")
             f.writelines("\n" + "        samples[]=")
             f.writelines("\n" + "        {")
@@ -664,14 +709,14 @@ def export_distance_9_cpp():
             f.writelines("\n" + "        };")
             f.writelines("\n" + "    };")      
             
-    print("Fichier " + sound_dist_9 + "m avec " + str(len(file_list_9)) + " sons générés.")
+    print("Fichier " + sound_dist_9 + "m avec " + str(len(file_list_9)) + " sons generes.")
 
 def copy():
     # ==========================================
-    # Vérification si le dossier Sound existe
+    # Verification si le dossier Sound existe
     # ==========================================
     
-    #Création du dossier
+    #Creation du dossier
     if os.path.exists(sounds_folder + "\\") == False:
         os.mkdir(sounds_folder + "\\")
 
@@ -689,35 +734,35 @@ def copy():
         
     #Dist_2
     for files in file_list_2:
-        shutil.copyfile(import_folder + "\\" + sound_dist_2 + "\\" + files, sounds_folder + "\\" + files[:-4] + "_" + sound_dist_1 + "M.ogg")
+        shutil.copyfile(import_folder + "\\" + sound_dist_2 + "\\" + files, sounds_folder + "\\" + files[:-4] + "_" + sound_dist_2 + "M.ogg")
         
     #Dist_3
     for files in file_list_3:
-        shutil.copyfile(import_folder + "\\" + sound_dist_3 + "\\" + files, sounds_folder + "\\" + files[:-4] + "_" + sound_dist_1 + "M.ogg")
+        shutil.copyfile(import_folder + "\\" + sound_dist_3 + "\\" + files, sounds_folder + "\\" + files[:-4] + "_" + sound_dist_3 + "M.ogg")
         
     #Dist_4
     for files in file_list_4:
-        shutil.copyfile(import_folder + "\\" + sound_dist_4 + "\\" + files, sounds_folder + "\\" + files[:-4] + "_" + sound_dist_1 + "M.ogg")
+        shutil.copyfile(import_folder + "\\" + sound_dist_4 + "\\" + files, sounds_folder + "\\" + files[:-4] + "_" + sound_dist_4 + "M.ogg")
         
     #Dist_5
     for files in file_list_5:
-        shutil.copyfile(import_folder + "\\" + sound_dist_5 + "\\" + files, sounds_folder + "\\" + files[:-4] + "_" + sound_dist_1 + "M.ogg")
+        shutil.copyfile(import_folder + "\\" + sound_dist_5 + "\\" + files, sounds_folder + "\\" + files[:-4] + "_" + sound_dist_5 + "M.ogg")
         
     #Dist_6
     for files in file_list_6:
-        shutil.copyfile(import_folder + "\\" + sound_dist_6 + "\\" + files, sounds_folder + "\\" + files[:-4] + "_" + sound_dist_1 + "M.ogg")
+        shutil.copyfile(import_folder + "\\" + sound_dist_6 + "\\" + files, sounds_folder + "\\" + files[:-4] + "_" + sound_dist_6 + "M.ogg")
         
     #Dist_7
     for files in file_list_7:
-        shutil.copyfile(import_folder + "\\" + sound_dist_7 + "\\" + files, sounds_folder + "\\" + files[:-4] + "_" + sound_dist_1 + "M.ogg")
+        shutil.copyfile(import_folder + "\\" + sound_dist_7 + "\\" + files, sounds_folder + "\\" + files[:-4] + "_" + sound_dist_7 + "M.ogg")
         
     #Dist_8
     for files in file_list_8:
-        shutil.copyfile(import_folder + "\\" + sound_dist_8 + "\\" + files, sounds_folder + "\\" + files[:-4] + "_" + sound_dist_1 + "M.ogg")
+        shutil.copyfile(import_folder + "\\" + sound_dist_8 + "\\" + files, sounds_folder + "\\" + files[:-4] + "_" + sound_dist_8 + "M.ogg")
         
     #Dist_9
     for files in file_list_9:
-        shutil.copyfile(import_folder + "\\" + sound_dist_9 + "\\" + files, sounds_folder + "\\" + files[:-4] + "_" + sound_dist_1 + "M.ogg")
+        shutil.copyfile(import_folder + "\\" + sound_dist_9 + "\\" + files, sounds_folder + "\\" + files[:-4] + "_" + sound_dist_9 + "M.ogg")
     
     
 def remover(): 
@@ -740,22 +785,22 @@ def remover():
     if question1 == "Y" or question1 == "y":
         if os.path.exists(import_folder + "\\") == True:
             shutil.rmtree(import_folder)
-            print("Vous avez ACCEPTÉ la suppression des Imports.")
+            print("Vous avez ACCEPTe la suppression des Imports.")
         else:
-            print("Le fichier des Imports n'existait déjà plus.")
+            print("Le fichier des Imports n'existait deja plus.")
     elif question1 == "N" or question1 == "n": 
-        print("Vous avez REFUSÉ la suppression des Imports.")
+        print("Vous avez REFUSe la suppression des Imports.")
     else:
         error_question = True
 
     if question2 == "Y" or question2 == "y":
         if os.path.exists(export_folder + "\\") == True:
             shutil.rmtree(export_folder)
-            print("Vous avez ACCEPTÉ la suppression des Exports.")
+            print("Vous avez ACCEPTe la suppression des Exports.")
         else:
-            print("Le fichier des Exports n'existait déjà plus.")
+            print("Le fichier des Exports n'existait deja plus.")
     elif question2 == "N" or question2 == "n": 
-        print("Vous avez REFUSÉ la suppression des Exports.")    
+        print("Vous avez REFUSe la suppression des Exports.")    
     else:
         error_question = True
 
