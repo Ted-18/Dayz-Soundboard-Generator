@@ -124,8 +124,8 @@ def check_import():
         os.mkdir(import_folder + "\\" + sound_dist_8 + "\\")
         
     #import\dist_9
-    if os.path.exists(import_folder + "\\" + sound_dist_8 + "\\") == False:
-        os.mkdir(import_folder + "\\" + sound_dist_8 + "\\")
+    if os.path.exists(import_folder + "\\" + sound_dist_9 + "\\") == False:
+        os.mkdir(import_folder + "\\" + sound_dist_9 + "\\")
 
 
 def check_export():
