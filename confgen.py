@@ -1,5 +1,4 @@
-from ast import Import
-import copy
+import shutil
 import json
 import os
 from os.path import exists
@@ -10,10 +9,12 @@ addon_name = "OBF_EA_SoundManager_Sounds"
 def init():
     FileManager.createFolder("Import")
     FileManager.createFolder("Export")
+    FileManager.createFolder("Export/sounds")
     SoundManagerGenerator.playerSoundSets()
     SoundManagerGenerator.positionSoundShader()
     SoundManagerGenerator.positionSoundSet()
     SoundManagerGenerator.profile()
+    SoundManagerGenerator.copyFile()
     
 
 class SoundManagerGenerator:
@@ -41,12 +42,12 @@ class SoundManagerGenerator:
                 FileManager.fileWrite("Export/playerSoundSets.cpp", "    class " + file[:-4] + "_" + folder + "M : default")
                 FileManager.fileWrite("Export/playerSoundSets.cpp", "    {")
                 FileManager.fileWrite("Export/playerSoundSets.cpp", "        sound[]=")
-                FileManager.fileWrite("Export/playerSoundSets.cpp", "           {")
-                FileManager.fileWrite("Export/playerSoundSets.cpp", "               \"\\" + addon_name + "\\sounds\\" + file[:-4] + "_" + folder + "M\",")
-                FileManager.fileWrite("Export/playerSoundSets.cpp", "               1,")
-                FileManager.fileWrite("Export/playerSoundSets.cpp", "               1,")
-                FileManager.fileWrite("Export/playerSoundSets.cpp", "               1000")
-                FileManager.fileWrite("Export/playerSoundSets.cpp", "           };")
+                FileManager.fileWrite("Export/playerSoundSets.cpp", "        {")
+                FileManager.fileWrite("Export/playerSoundSets.cpp", "            \"" + addon_name + "\\sounds\\" + file[:-4] + "_" + folder + "M\",")
+                FileManager.fileWrite("Export/playerSoundSets.cpp", "            1,")
+                FileManager.fileWrite("Export/playerSoundSets.cpp", "            1,")
+                FileManager.fileWrite("Export/playerSoundSets.cpp", "            1000")
+                FileManager.fileWrite("Export/playerSoundSets.cpp", "        };")
                 FileManager.fileWrite("Export/playerSoundSets.cpp", "    };")
                 
                 Logger.debug("Creation of " + file + " playerSoundSets done")
@@ -82,16 +83,25 @@ class SoundManagerGenerator:
             for file in os.listdir("Import/" + folder):
                 Logger.debug("Creation of " + file + " positionSoundShader")
                 
-                FileManager.fileWrite("Export/positionSoundShader.cpp", "    class " + file[:-4] + "_" + folder + "M : default")
+                FileManager.fileWrite("Export/positionSoundShader.cpp", "    class " + file[:-4] + "_" + folder + "M_SoundShader")
                 FileManager.fileWrite("Export/positionSoundShader.cpp", "    {")
-                FileManager.fileWrite("Export/positionSoundShader.cpp", "        sound[]=")
-                FileManager.fileWrite("Export/positionSoundShader.cpp", "           {")
-                FileManager.fileWrite("Export/positionSoundShader.cpp", "               \"\\" + addon_name + "\\sounds\\" + file[:-4] + "_" + folder + "M\",")
-                FileManager.fileWrite("Export/positionSoundShader.cpp", "               1,")
-                FileManager.fileWrite("Export/positionSoundShader.cpp", "               1,")
-                FileManager.fileWrite("Export/positionSoundShader.cpp", "               1000")
-                FileManager.fileWrite("Export/positionSoundShader.cpp", "           };")
+                FileManager.fileWrite("Export/positionSoundShader.cpp", "        samples[]=")
+                FileManager.fileWrite("Export/positionSoundShader.cpp", "        {")
+                FileManager.fileWrite("Export/positionSoundShader.cpp", "            {")
+                FileManager.fileWrite("Export/positionSoundShader.cpp", "                \"" + addon_name + "\\sounds\\" + file[:-4] + "_" + folder + "M\",")
+                FileManager.fileWrite("Export/positionSoundShader.cpp", "                1")
+                FileManager.fileWrite("Export/positionSoundShader.cpp", "            }")
+                FileManager.fileWrite("Export/positionSoundShader.cpp", "        };")
+                FileManager.fileWrite("Export/positionSoundShader.cpp", "        volume=1;")
+                FileManager.fileWrite("Export/positionSoundShader.cpp", "        range=5;")
+                FileManager.fileWrite("Export/positionSoundShader.cpp", "        rangeCurve[]=")
+                FileManager.fileWrite("Export/positionSoundShader.cpp", "        {")
+                
+                Calculator.soundShader(folder)
+                    
+                FileManager.fileWrite("Export/positionSoundShader.cpp", "        };")
                 FileManager.fileWrite("Export/positionSoundShader.cpp", "    };")
+                Logger.debug("Creation of " + file + " positionSoundShader done")
         
         Logger.info("Creation of positionSoundShader done")
         
@@ -123,17 +133,25 @@ class SoundManagerGenerator:
             for file in os.listdir("Import/" + folder):
                 Logger.debug("Creation of " + file + " positionSoundSet")
                 
-                FileManager.fileWrite("Export/positionSoundSet.cpp", "    class " + file[:-4] + "_" + folder + "M : default")
+                FileManager.fileWrite("Export/positionSoundSet.cpp", "    class " + file[:-4] + "_" + folder + "M")
                 FileManager.fileWrite("Export/positionSoundSet.cpp", "    {")
-                FileManager.fileWrite("Export/positionSoundSet.cpp", "        sound[]=")
-                FileManager.fileWrite("Export/positionSoundSet.cpp", "           {")
-                FileManager.fileWrite("Export/positionSoundSet.cpp", "               \"\\" + addon_name + "\\sounds\\" + file[:-4] + "_" + folder + "M\",")
-                FileManager.fileWrite("Export/positionSoundSet.cpp", "               1,")
-                FileManager.fileWrite("Export/positionSoundSet.cpp", "               1,")
-                FileManager.fileWrite("Export/positionSoundSet.cpp", "               1000")
-                FileManager.fileWrite("Export/positionSoundSet.cpp", "           };")
+                FileManager.fileWrite("Export/positionSoundSet.cpp", "        soundShaders[]=")
+                FileManager.fileWrite("Export/positionSoundSet.cpp", "        {")
+                FileManager.fileWrite("Export/positionSoundSet.cpp", "            \"" + file[:-4] + "_" + folder + "M_SoundShader\"")
+                FileManager.fileWrite("Export/positionSoundSet.cpp", "        };")
+                FileManager.fileWrite("Export/positionSoundSet.cpp", "        volumeFactor=1.4;")
+                FileManager.fileWrite("Export/positionSoundSet.cpp", "        volumeCurve=\"InverseSquare2Curve\";")
+                FileManager.fileWrite("Export/positionSoundSet.cpp", "        spatial=1;")
+                FileManager.fileWrite("Export/positionSoundSet.cpp", "        doppler=1;")
+                FileManager.fileWrite("Export/positionSoundSet.cpp", "        loop=1;")
+                FileManager.fileWrite("Export/positionSoundSet.cpp", "        sound3DProcessingType=\"ExplosionMedium3DProcessingType\";")
+                FileManager.fileWrite("Export/positionSoundSet.cpp", "        distanceFilter=\"explosionDistanceFreqAttenuationFilter\";")
                 FileManager.fileWrite("Export/positionSoundSet.cpp", "    };")
+                
+                Logger.debug("Creation of " + file + " positionSoundSet done")
         
+
+
         Logger.info("Creation of positionSoundSet done")
         
         
@@ -149,10 +167,10 @@ class SoundManagerGenerator:
         
         for folder in os.listdir("Import"):
             Logger.debug("Folder " + folder + "M")
-            
             for file in os.listdir("Import/" + folder):
                 Sounds.append(file[:-4] + "_" + folder + "M")
 
+        Sounds.sort()
         SoundsLists["SoundsLists"] = Sounds        
         FileManager.jsonWrite("Export/profil.json", SoundsLists)
         Logger.info("Creation of profile file done")
@@ -160,7 +178,29 @@ class SoundManagerGenerator:
     
     
     def copyFile():
-        return
+        for folder in os.listdir("Import"):
+            for file in os.listdir("Import/" + folder):
+                shutil.copyfile("Import/" + folder + "/" + file, "Export/sounds/" + file[:-4] + "_" + folder +"M.ogg")
+
+
+
+class Calculator:
+    def soundShader( val):  
+        
+        val = int(val)
+        num = 0
+        
+        FileManager.fileWrite("Export/positionSoundShader.cpp", "            {0,1},")
+
+        while num < int(val):
+            num = num + 25
+            if num < val:
+                FileManager.fileWrite("Export/positionSoundShader.cpp", "            {" + str(num) + ",1},")
+            else:
+                if num == val:
+                    FileManager.fileWrite("Export/positionSoundShader.cpp", "            {" + str(num) + ",1}")
+                else:
+                    FileManager.fileWrite("Export/positionSoundShader.cpp", "            {" + str(val) + ",1}")
 
 
 class FileManager:
@@ -196,7 +236,6 @@ class FileManager:
         else:
             Logger.info(fileName + " exist")
         
-
 
 class Logger:
     
